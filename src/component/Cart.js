@@ -30,46 +30,54 @@ function Cart(props){
 
 
     return(
-        <div>
-            <h1>CART</h1>
-            {   
-                    <table border='1' class="table table-striped">
-                        <thead>
+        <div class = "container-fluid">
+            <h1 class="display-1 bg-warning">CART</h1>
+            <div class="table-responsive" >            
+                    <table border='1' class="table">
+                        <thead class="thead-dark">
                             <tr>
-                            <td>Remove</td>
-                            <td>Image</td>
-                            <td>Product</td>
-                            <td>Price</td>
-                            <td>Quantity</td>
-                            <td>Total</td>
+                            <th>Remove</th>
+                            <th>Image</th>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                           {    props.Cart.map((item)=>{
-
-                                        return <tr key={item.id}>
-                                                <td><button type="button" class="close" aria-label="Close" onClick= {()=>{ props.dispatch(handleRemove(item.id))} }>
-                                                        <span aria-hidden="true">&times;</span>
+                           {props.Cart.map((item)=>{
+                                 return <tr key={item.id}>
+                                                
+                                                <td>
+                                                    <button type="button" class="close" aria-label="Close" onClick= {()=>{ props.dispatch(handleRemove(item.id))} }>
+                                                        <span  aria-hidden="true">&times;</span>
                                                     </button>
                                                 </td>
-                                                <td ><img alt="image" width="50%" height="225" src={item.image}/></td>
-                                                <td>{item.title}</td>
-                                                <td>${item.price}</td>
-                                                <td>
-                                                <div class="number d-flex">
-	                                              <button class="minus" onClick={ () =>{handleQuantityDecrease(item.id)} }>-</button>
-                                            	  <input type="text" value={item.quantity}/>{console.log(item.quantity)}
-	                                              <button class="plus" onClick={ () =>{handleQuantityIncrease(item.id)} }>+</button>
-                                                </div>
+
+                                                <td >
+                                                    <img class="m-auto" alt="image"  height="225" src={item.image}/>
                                                 </td>
+
+                                                <td>{item.title}</td>
+
+                                                <td>${item.price}</td>
+
+                                                <td>
+                                                  <div class="number d-flex">
+	                                                <button class="minus" onClick={ () =>{handleQuantityDecrease(item.id)} }>-</button>
+                                            	      <input type="text" value={item.quantity}/>{console.log(item.quantity)}
+	                                                <button class="plus" onClick={ () =>{handleQuantityIncrease(item.id)} }>+</button>
+                                                  </div>
+                                                </td>
+
                                                 <td>$ {item.quantity*item.price}</td>
-                                               </tr>
-                                    })} 
+                                        </tr>
+                            })} 
                         </tbody>
                     </table>
-                }
                 <Link class="btn btn-primary btn-lg active" to="/">back</Link>
+       </div>
        </div>
     )
 }

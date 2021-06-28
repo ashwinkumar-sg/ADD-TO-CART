@@ -14,8 +14,6 @@ console.log(store.getState())
 
 store.dispatch(startGetItems())
 
-
-
 const jsx = (
     <Provider store={store}>
         <App/>
