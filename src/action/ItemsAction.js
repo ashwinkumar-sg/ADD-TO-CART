@@ -1,18 +1,10 @@
 import axios from 'axios'
-export const startGetItems = ( obj ) => {
+export const startGetItems = () => {
     return(dispatch)=>{
          axios.get('https://fakestoreapi.com/products')
         .then((response)=>{
             
-            if(obj){
-                const cartItem = response.data.find( (ele)=>{ return ele.id==obj.ID})
-                dispatch(addCart(cartItem))
-                obj.redirect()
-
-            }
-            else{
                 dispatch(setItems(response.data))
-            }
         
         })
     }
@@ -22,8 +14,8 @@ const setItems =(items) => {
      return { type: "GET_ITEMS", payload: items}
 }
 
-const addCart =(item) => {
-    return { type: "ADD_CART", payload: item}
+export const addCart =(CartItem) => {
+    return { type: "ADD_CART", payload: CartItem}
 }
 
 const addCartVary =(newCart) => {

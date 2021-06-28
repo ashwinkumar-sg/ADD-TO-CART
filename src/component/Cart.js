@@ -3,10 +3,10 @@ import {connect} from "react-redux"
 import {Link}  from 'react-router-dom'
 import {handleRemove} from "../action/ItemsAction"
 import addCartVary from "../action/ItemsAction"
+import Swal from "sweetalert2";
 
 
 function Cart(props){
-    console.log(props.Cart,"123")
 
     const handleQuantityIncrease = (ID) => {
         const  newCart =    props.Cart.map((item)=>{
@@ -21,13 +21,28 @@ function Cart(props){
     const handleQuantityDecrease = (ID) => { 
         const  newCart = props.Cart.map((item)=>{
                 if(item.id == ID){
-                    return Object.assign({},item,{quantity:item.quantity-1})
+                    return Object.assign({},item,{quantity:item.quantity-1?item.quantity-1:1})
                 }else{
                     return item
             }})
             props.dispatch(addCartVary(newCart))
         };
-
+    
+    const handleRemoveItem = (ID) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You are removing the Cart product",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result)=>{
+              if(result.value){
+                 props.dispatch(handleRemove(ID))
+              }
+          })
+        }
 
     return(
         <div class = "container-fluid">
@@ -45,33 +60,33 @@ function Cart(props){
                             </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody >
                            {props.Cart.map((item)=>{
                                  return <tr key={item.id}>
                                                 
                                                 <td>
-                                                    <button type="button" class="close" aria-label="Close" onClick= {()=>{ props.dispatch(handleRemove(item.id))} }>
+                                                    <button type="button" class="close bg-danger" aria-label="Close" onClick= {()=>{ handleRemoveItem(item.id)} }>
                                                         <span  aria-hidden="true">&times;</span>
                                                     </button>
                                                 </td>
 
                                                 <td >
-                                                    <img class="m-auto" alt="image"  height="225" src={item.image}/>
+                                                    <img alt="image"  height="100" src={item.image}/>
                                                 </td>
 
                                                 <td>{item.title}</td>
 
-                                                <td>${item.price}</td>
+                                                <td>$ {item.price}</td>
 
                                                 <td>
-                                                  <div class="number d-flex">
+                                                  <div class="number d-flex ">
 	                                                <button class="minus" onClick={ () =>{handleQuantityDecrease(item.id)} }>-</button>
-                                            	      <input type="text" value={item.quantity}/>{console.log(item.quantity)}
+                                            	      <div class="mx-3"><p>{item.quantity}</p></div>
 	                                                <button class="plus" onClick={ () =>{handleQuantityIncrease(item.id)} }>+</button>
                                                   </div>
                                                 </td>
 
-                                                <td>$ {item.quantity*item.price}</td>
+                                                <td><h5>$ {item.quantity*item.price}</h5></td>
                                         </tr>
                             })} 
                         </tbody>
